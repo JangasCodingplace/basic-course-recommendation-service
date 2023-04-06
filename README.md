@@ -1,4 +1,8 @@
 # Recommendation Service
+
+**Note** This is just a Demo project without realworld usage. It was 
+created for a 1 - 4 hour workshop. It's not suited for production.
+
 This project is a microservice for course recommendations. It 
 basically has two functionalities:
 1. Start a webservice with 2 endpoints:
