@@ -177,3 +177,4 @@ pyrightconfig.json
 
 .vscode/
 .idea/
+app/initial-csv-data/
