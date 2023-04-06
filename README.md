@@ -9,6 +9,8 @@ basically has two functionalities:
 2. Load initial data into a neo4j database (this is optional and will
    be executed on server start)
 
+![](docs/neo4j-graph.png)
+
 
 ## Recommendations Explained
 This recommendation engine is built using a graph database and 
