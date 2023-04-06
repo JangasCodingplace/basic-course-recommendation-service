@@ -4,10 +4,20 @@ version = "0.1.0"
 description = "It is an imaginary scenario in which a recommendation engine is written for a course platform. For this purpose an Api with Python FastAPI and a Neo4j database is provided."
 authors = ["JangasCodingplace <janisgoesser92@gmail.com>"]
 
+[tool.black]
+line-length = 100
+
+[flake8]
+max-line-length = 100
+
+[tool.mypy]
+ignore_missing_imports = true
+
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.95.0"
 uvicorn = "^0.21.1"
+neo4j = "^5.7.0"
 
 [tool.poetry.dev-dependencies]
 python-dotenv = "^1.0.0"
