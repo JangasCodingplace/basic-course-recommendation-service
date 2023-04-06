@@ -1,0 +1,15 @@
+id,title,topic,requirements,suitable_for
+1,python,programming-language,,datascience data-engineering web-development automation
+3,java,programming-language,,data-engineering web-development automation
+4,java-script,programming-language,,web-development
+6,sql,programming-language,,web-development data-engineering data-science
+7,spring,software-development,java,data-engineering web-development
+15,django,web-development,python,web-development
+16,flask,web-development,python,web-development
+23,react,web-development,java-script,web-development
+24,vue,web-development,java-script,web-development
+25,angular,web-development,java-script,web-development
+33,postgres,database,sql,web-development data-engineering data-science
+34,mysql,database,sql,web-development data-engineering data-science
+38,apache-cassandra,database,sql,data-engineering data-science
+51,apache-kafka,data-streaming,,data-engineering
