@@ -17,3 +17,4 @@ class _Neo4j:
 
 BASE_DIR = Path(__file__).parent
 NEO4J = _Neo4j()
+EXEC_INITIAL_LOAD = os.getenv("EXEC_INITIAL_LOAD", "false").lower() == "true"

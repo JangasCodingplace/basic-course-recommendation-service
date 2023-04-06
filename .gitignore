@@ -178,3 +178,5 @@ pyrightconfig.json
 .vscode/
 .idea/
 app/initial-csv-data/
+
+neo4j/

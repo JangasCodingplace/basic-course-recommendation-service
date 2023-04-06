@@ -2,6 +2,13 @@ from dataclasses import dataclass
 
 
 @dataclass
+class CourseEssential:
+    id: int
+    title: str
+    topic: str
+
+
+@dataclass
 class Course:
     id: int
     title: str

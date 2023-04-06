@@ -1,5 +1,6 @@
 from neo4j import GraphDatabase
-from configs import NEO4J
+from .configs import NEO4J
+from .models import CourseEssential
 
 
 class Neo4j:
@@ -57,12 +58,41 @@ class CourseRepository:
                 use_case=use_case,
             )
 
+    @staticmethod
+    def add_relationship_to_course(source_id: int, target_id: int, rel_type: str = "REQUIRES"):
+        # RM This Repository
+        with neo4j.driver.session() as session:
+            session.run(
+                """
+                MATCH (c1:Course {id: $source_id}), (c2:Course {id: $target_id})
+                MERGE (c1)-[:"""
+                + rel_type
+                + """]->(c2)
+                """,
+                source_id=source_id,
+                target_id=target_id,
+                rel_type=rel_type,
+            )
+
 
 class UserRepository:
     @staticmethod
     def create_node(id_: int):
         with neo4j.driver.session() as session:
             session.run("MERGE (u:User {id: $id})", id=id_)
+
+    @staticmethod
+    def get_courses(id_: int) -> list[CourseEssential]:
+        with neo4j.driver.session() as session:
+            result = session.run(
+                "MATCH (u: User {id: $user_id})-[p:PARTICIPANT_OF]->(c: Course)-[b:BELONGS_TO]->(t: Topic) RETURN c, b, t",  # noqa
+                user_id=str(id_),
+            )
+            data = result.data()
+        return [
+            CourseEssential(id=row["c"]["id"], title=row["c"]["name"], topic=row["t"]["name"])
+            for row in data
+        ]
 
 
 class ParticipantRepository:
@@ -77,3 +107,26 @@ class ParticipantRepository:
                 user_id=user_id,
                 course_id=course_id,
             )
+
+
+class RecommendationRepository:
+    @staticmethod
+    def get_course_recommendation_by_use_case(user_id: int) -> list[CourseEssential]:
+        query = """
+            MATCH (u:User {id: $user_id})-[:PARTICIPANT_OF]->(c:Course)-[:SUITABLE_FOR]->(uc:UseCase)<-[:SUITABLE_FOR]-(c2:Course)-[b:BELONGS_TO]->(t: Topic)
+            WHERE NOT (u)-[:PARTICIPANT_OF]->(c2)
+            RETURN DISTINCT c2, b, t, COUNT(DISTINCT uc) AS num_use_cases_in_common
+            ORDER BY num_use_cases_in_common DESC
+            LIMIT 10
+        """  # noqa
+        with neo4j.driver.session() as session:
+            result = session.run(query, user_id=str(user_id))
+            data = result.data()
+        return [
+            CourseEssential(
+                id=row["c2"]["id"],
+                title=row["c2"]["name"],
+                topic=row["t"]["name"],
+            )
+            for row in data
+        ]
